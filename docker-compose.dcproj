@@ -9,10 +9,13 @@
     <DockerServiceName>messageservice</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="BaseCassandraRepository.cs" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="IRepository.cs" />
+    <None Include="MessageRepository.cs" />
   </ItemGroup>
 </Project>
