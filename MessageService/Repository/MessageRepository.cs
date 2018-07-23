@@ -16,48 +16,57 @@ namespace MessageService.Repository
 
         public Message Delete(Guid messageId)
         {
-            var localSession = GetSession();
-            var messages = localSession.GetTable<Message>();
+            using (var localSession = GetSession())
+            {
+                var messages = localSession.GetTable<Message>();
 
-            var result = messages.DeleteIf(p => p.Id == messageId).Execute();
+                var result = messages.DeleteIf(p => p.Id == messageId).Execute();
 
-            return result.Existing;
+                return result.Existing;
+            }
         }
 
         public Message Get(Guid messageId)
         {
-            var localSession = GetSession();
-            var messages = localSession.GetTable<Message>();
+            using (var localSession = GetSession())
+            {
+                var messages = localSession.GetTable<Message>();
 
-            var result = messages.Where(p => p.Id == messageId).Execute().FirstOrDefault();
-            if (result == null) throw new Exception($"{messageId} not found");
-            return result;
+                var result = messages.Where(p => p.Id == messageId).Execute().FirstOrDefault();
+                if (result == null) throw new Exception($"{messageId} not found");
+                return result;
+            }
         }
 
         public IEnumerable<Message> GetAll()
         {
-            var localSession = GetSession();
-            var messages = localSession.GetTable<Message>();
+            using (var localSession = GetSession())
+            {
+                var messages = localSession.GetTable<Message>();
 
-            var result = messages.Execute();
+                var result = messages.Execute();
 
-            return result;
+                return result;
+            }
         }
 
         public Message Insert(Message message)
         {
-            var localSession = GetSession();
-            var messages = localSession.GetTable<Message>();
+            using (var localSession = GetSession())
+            {
+                var messages = localSession.GetTable<Message>();
 
-            messages.Insert(message).Execute();
+                messages.Insert(message).Execute();
 
-            return message;
+                return message;
+            }
         }
 
         public void Update(Guid messageId, Message message)
         {
-            var localSession = GetSession();
-            var messages = localSession.GetTable<Message>();
+            using (var localSession = GetSession())
+            {
+                Table<Message> messages = localSession.GetTable<Message>();
 
             messages.Where(p => p.Id == messageId).
                 Select(p => new Message()
@@ -67,6 +76,7 @@ namespace MessageService.Repository
                 })
                 .Update()
                 .Execute();
+            }
         }
     }
 }
